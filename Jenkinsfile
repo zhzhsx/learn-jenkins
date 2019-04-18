@@ -6,7 +6,12 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building..'
-                sh 'mvn -U clean package'
+                sh 'mvn -U -Dmaven.test.failure.ignore=true clean package'
+            }
+            post {
+                success {
+                    junit '**/target/surefire-reports/**/*.xml'
+                }
             }
         }
         stage('Test') {
@@ -15,6 +20,11 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
             steps {
                 echo 'Deploying....'
             }
