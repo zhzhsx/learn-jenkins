@@ -2,7 +2,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'buildpod'
+            label 'zehuabuildpod'
             yamlFile 'k8s/KubernetesPod.yaml'
         }
     }
