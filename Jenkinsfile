@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 pipeline {
-    agent { docker { image 'maven:3.3.3' } }
+    agent { docker { image 'maven:3.6.1' } }
     stages {
         stage('build') {
             steps {
