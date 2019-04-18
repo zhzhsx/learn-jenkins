@@ -1,0 +1,24 @@
+#!/usr/bin/env groovy
+pipeline {
+    agent {
+        kubernetes {
+            label 'buildpod'
+            yamlFile 'k8s/KubernetesPod.yaml'
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                container('maven') {
+                    echo 'Building..'
+                    sh 'mvn -U -Dmaven.test.failure.ignore=true clean package'
+                }
+            }
+            post {
+                success {
+                    junit '**/target/surefire-reports/**/*.xml'
+                }
+            }
+        }
+    }
+}
