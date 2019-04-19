@@ -11,7 +11,8 @@ pipeline {
             steps {
                 container('maven') {
                     echo 'Building..'
-                    echo '${env.PWD}'
+                    echo "${env.WORKSPACE}"
+                    echo "${env.PWD}"
                     sh 'mvn -U -Dmaven.test.failure.ignore=true clean package'
                 }
             }
